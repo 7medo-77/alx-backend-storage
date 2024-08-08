@@ -1,3 +1,2 @@
--- SQL script that creates a new table called users
--- with constraints for id, email, and country columns
-
+-- SQL script lists all the origins and fans of meta bands
+SELECT origin AS origin, fans AS nb_fans FROM holberton.metal_bands ORDER BY `nb_fans` DESC;
