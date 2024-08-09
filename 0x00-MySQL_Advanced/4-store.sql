@@ -16,7 +16,7 @@ BEGIN
 	FROM items WHERE
 	items.name = item_name;
 
-	SET new_qty = new_qty + item_qty;
+	SET new_qty = new_qty - item_qty;
 	UPDATE items
 	SET quantity = new_qty
 	WHERE name = item_name;
