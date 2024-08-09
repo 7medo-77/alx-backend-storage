@@ -1,5 +1,5 @@
--- SQL script lists all the origins and fans of meta bands
-
+-- SQL script which defines a trigger that reduces the
+-- quantity of an item when a new order is made
 DELIMITER $$
 CREATE TRIGGER count_delete
 AFTER INSERT ON orders
