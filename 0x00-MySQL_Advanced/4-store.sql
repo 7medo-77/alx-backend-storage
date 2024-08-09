@@ -5,9 +5,8 @@ CREATE TRIGGER count_delete
 AFTER INSERT ON orders
 FOR EACH ROW
 BEGIN
-	SET new_qty = new_qty - NEW.number;
 	UPDATE items
-	SET quantity = new_qty
+	SET quantity = quantity - NEW.number;
 	WHERE name = NEW.item_name;
 END
 $$
