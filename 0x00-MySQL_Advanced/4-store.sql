@@ -1,11 +1,12 @@
 -- SQL script lists all the origins and fans of meta bands
+
 DELIMITER $$
 CREATE TRIGGER count_delete
 AFTER INSERT ON orders
 FOR EACH ROW
 BEGIN
-	DECLARE item_name;
-	DECLARE item_qty;
+	DECLARE item_name VARCHAR(255);
+	DECLARE item_qty INT;
 	DECLARE new_qty INT;
 
 	SET item_name = NEW.item_name;
@@ -21,12 +22,16 @@ BEGIN
 	WHERE name = item_name;
 END
 $$
+DELIMITER ;
 
--- CREATE TRIGGER set_default_status
--- BEFORE INSERT ON orders
+-- DROP TRIGGER IF EXISTS reduce_quantity;
+-- DELIMITER $$
+-- CREATE TRIGGER reduce_quantity
+-- AFTER INSERT ON orders
 -- FOR EACH ROW
 -- BEGIN
---     IF NEW.status IS NULL THEN
---         SET NEW.status = 'Pending';
---     END IF;
--- END;
+--     UPDATE items
+--         SET quantity = quantity - NEW.number
+--         WHERE name = NEW.item_name;
+-- END $$
+-- DELIMITER ;
