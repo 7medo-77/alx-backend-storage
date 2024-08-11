@@ -3,6 +3,9 @@ DELIMITER $$
 CREATE FUNCTION SafeDiv (a INT, b INT)
 RETURNS FLOAT
 BEGIN
-    RETURN IF(a = 0 OR b = 0, 0, a / b);
-END
+    DECLARE result DEFAULT 0;
+
+    SET result = IF(a = 0 OR b = 0, 0, a / b);
+    RETURN result;
+END $$
 DELIMITER ;
