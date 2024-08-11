@@ -1,15 +1,8 @@
--- creates a function SafeDiv that divides (and returns) the first
--- by the second number or returns 0 if the second number is equal to 0.
-DROP FUNCTION IF EXISTS SafeDiv;
+-- SQL script which creates a function that divides two numbers safely
 DELIMITER $$
 CREATE FUNCTION SafeDiv (a INT, b INT)
-RETURNS FLOAT DETERMINISTIC
+RETURNS FLOAT
 BEGIN
-    DECLARE result FLOAT DEFAULT 0;
-
-    IF b != 0 THEN
-        SET result = a / b;
-    END IF;
-    RETURN result;
-END $$
+    RETURN IF(a = 0 OR b = 0, 0, a / b);
+END
 DELIMITER ;
