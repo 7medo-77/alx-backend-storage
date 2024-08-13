@@ -1,0 +1,2 @@
+// MongoDB script which lists all the collections in a db
+db.find()
