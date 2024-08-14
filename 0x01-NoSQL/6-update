@@ -1,0 +1,2 @@
+// MongoDB script which updates a certain document in a collection
+db.school.updateMany({name: "Holberton school"}, { $push: {address: "972 Mission street"}})
