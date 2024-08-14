@@ -1,2 +1,2 @@
-// MongoDB script which finds all documents containing Holberton school
-db.school.find({name: "Holberton school"})
+// Lists all documents in the school collection.
+db.school.find().forEach(printjson);

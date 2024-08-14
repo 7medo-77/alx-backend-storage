@@ -1,3 +1,2 @@
-// MongoDB script which updates a certain document in a collection
-// db.school.find({name: "Holberton school"}).delete()
-db.school.deleteMany({name: "Holberton school"})
+// Deletes all documents with name="Holberton school" in the school collection.
+db.school.deleteMany({name: "Holberton school"});

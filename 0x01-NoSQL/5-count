@@ -1,2 +1,2 @@
-// MongoDB script which counts all documents in a collection
-db.school.find().count()
+// Counts the documents in the school collection.
+db.school.find().count();
