@@ -1,0 +1,3 @@
+// MongoDB script which updates a certain document in a collection
+// db.school.find({name: "Holberton school"}).delete()
+db.school.remove({name: "Holberton school"})
