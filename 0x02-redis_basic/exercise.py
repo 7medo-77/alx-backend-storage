@@ -24,10 +24,8 @@ def call_history(method: Callable) -> Callable:
         output = method(self, *args)
 
         if (isinstance(self._redis, redis.Redis)):
-            arguments = str(*args)
+            arguments = str(args)
             self._redis.rpush(input_key, arguments)
-            # self._redis.rpush(output_key, output)
-        if (isinstance(self._redis, redis.Redis)):
             self._redis.rpush(output_key, output)
         return output
 
