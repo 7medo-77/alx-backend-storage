@@ -95,6 +95,9 @@ class Cache:
             return self._redis.get(key)
 
 def replay(fn: Callable) -> None:
+    """
+    Function that returns the call history and count of a function
+    """
     redis_instance = redis.Redis()
     keyName = fn.__qualname__
     index = 0
