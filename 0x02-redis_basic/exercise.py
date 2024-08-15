@@ -98,10 +98,11 @@ def replay(fn: Callable) -> None:
     redis_instance = redis.Redis()
     keyName = fn.__qualname__
     index = 0
-    input_keys = str(redis_instance.keys('*input*'))
-    output_keys = str(redis_instance.keys('*output*'))
-    input_string_array = [str(key) for key in redis_instance.lrange(input_keys, 0, -1)]
-    output_string_array = [str(key) for key in redis_instance.lrange(output_keys, 0, -1)]
+    input_keys = redis_instance.keys('*input*')[0]
+    output_keys = redis_instance.keys('*output*')[0]
+    input_string_array = [key.decode('utf-8') for key in redis_instance.lrange(input_keys, 0, -1)]
+    output_string_array = [key.decode('utf-8') for key in redis_instance.lrange(output_keys, 0, -1)]
+
     key_zip = zip(input_string_array, output_string_array)
 
     for index, tuple in enumerate(key_zip):
