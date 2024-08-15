@@ -31,6 +31,7 @@ def call_history(method: Callable) -> Callable:
 
     return history_wrapper
 
+
 def count_calls(method: Callable) -> Callable:
     """
     Decorator method which returns a callable
@@ -48,6 +49,7 @@ def count_calls(method: Callable) -> Callable:
                 self._redis.incr(keyArg)
         return method(self, *args)
     return wrapper_function
+
 
 class Cache:
     """
@@ -84,7 +86,8 @@ class Cache:
         """
         return int(key)
 
-    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Callable = None)\
+            -> Union[str, bytes, int, float]:
         """
         Get method which replicates the
         behavior of the .get redis method
@@ -94,24 +97,26 @@ class Cache:
         else:
             return self._redis.get(key)
 
+
 def replay(fn: Callable) -> None:
     """
     Function that returns the call history and count of a function
     """
     redis_instance = redis.Redis()
-    keyName = fn.__qualname__
-    index = 0
     input_keys = redis_instance.keys('*input*')[0]
     output_keys = redis_instance.keys('*output*')[0]
-    input_string_array = [key.decode('utf-8') for key in redis_instance.lrange(input_keys, 0, -1)]
-    output_string_array = [key.decode('utf-8') for key in redis_instance.lrange(output_keys, 0, -1)]
+
+    input_string_array = [key.decode('utf-8') for key
+                          in redis_instance.lrange(input_keys, 0, -1)]
+    output_string_array = [key.decode('utf-8') for key
+                           in redis_instance.lrange(output_keys, 0, -1)]
 
     key_zip = zip(input_string_array, output_string_array)
 
     for index, tuple in enumerate(key_zip):
         if index == 0:
-            print('{} was called {} times:'.format(fn.__qualname__, len(output_string_array)))
+            print('{} was called {} times:'
+                  .format(fn.__qualname__, len(output_string_array)))
             print('{}(*{}) -> {}'.format(fn.__qualname__, tuple[0], tuple[1]))
         else:
             print('{}(*{}) -> {}'.format(fn.__qualname__, tuple[0], tuple[1]))
-
