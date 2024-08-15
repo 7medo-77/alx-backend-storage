@@ -5,5 +5,7 @@ newRedis = redis.Redis()
 newKey = str(uuid.uuid4())
 
 variableTest = newRedis.set(newKey, 23)
+typeResponse = newRedis.get(newKey)
 
 print(newKey)
+print(type(str(typeResponse)))
