@@ -24,9 +24,12 @@ def call_history(method: Callable) -> Callable:
         if (isinstance(self._redis, redis.Redis)):
             arguments = str(*args)
             output = method(self, *args)
-
-            self._redis.rpush(input_key, arguments)
-            self._redis.rpush(output_key, output)
+            if not self._redis.get(input_key) and not self._redis.get(output_key):
+                self._redis.set(input_key, arguments)
+                self._redis.set(output_key, output)
+            else:
+                self._redis.rpush(input_key, arguments)
+                self._redis.rpush(output_key, output)
         return method(self, *args)
 
     return history_wrapper
