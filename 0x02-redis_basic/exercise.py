@@ -8,6 +8,27 @@ from typing import Union, Any, Callable
 import functools
 
 
+def call_history(method: Callable) -> Callable:
+    """
+    Decorator method which returns a callable
+    """
+    @functools.wraps(method)
+    def history_wrapper(self, *args) -> Any:
+        """
+        Wrapper function which creates two keys, input and output
+        and creates a list of paramters as the value for the input
+        and a list of outputs as the value for the output
+        """
+        input_key = '{}:inputs'.format(method.__qualname__)
+        output_key = '{}:outputs'.format(method.__qualname__)
+        if (isinstance(self._redis, redis.Redis)):
+            arguments = str(args)
+            output = method(self, *args)
+            self._redis.rpush(input_key, arguments)
+            self._redis.rpush(output_key, output)
+        return method(self, *args)
+    return history_wrapper
+
 def count_calls(method: Callable) -> Callable:
     """
     Decorator method which returns a callable
