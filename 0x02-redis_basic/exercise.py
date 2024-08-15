@@ -93,3 +93,21 @@ class Cache:
             return fn(key)
         else:
             return self._redis.get(key)
+
+def replay(fn: Callable) -> None:
+    redis_instance = redis.Redis()
+    keyName = fn.__qualname__
+    index = 0
+    input_keys = str(redis_instance.keys('*input*'))
+    output_keys = str(redis_instance.keys('*output*'))
+    input_string_array = [str(key) for key in redis_instance.lrange(input_keys, 0, -1)]
+    output_string_array = [str(key) for key in redis_instance.lrange(output_keys, 0, -1)]
+    key_zip = zip(input_string_array, output_string_array)
+
+    for index, tuple in enumerate(key_zip):
+        if index == 0:
+            print('{} was called {} times:'.format(fn.__qualname__, len(output_string_array)))
+            print('{}(*{}) -> {}'.format(fn.__qualname__, tuple[0], tuple[1]))
+        else:
+            print('{}(*{}) -> {}'.format(fn.__qualname__, tuple[0], tuple[1]))
+
