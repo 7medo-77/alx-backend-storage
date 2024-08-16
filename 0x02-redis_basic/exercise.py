@@ -102,7 +102,9 @@ def replay(fn: Callable) -> None:
     """
     Function that returns the call history and count of a function
     """
-    redis_instance = redis.Redis()
+    redis_instance = fn.__self__._redis if fn else None
+    assert isinstance(redis_instance, redis.Redis)
+
     input_keys = redis_instance.keys('*input*')[0]
     output_keys = redis_instance.keys('*output*')[0]
 
